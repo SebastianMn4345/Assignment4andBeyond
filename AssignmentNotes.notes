@@ -1,0 +1,35 @@
+We are going to using huge numbers, because of this we are going to store the numbers in a vector (kinda like how it was with machine code, we have to separate the entire result)
+    - so then we do long multiplication
+    - look at the VALUES NOT THE INDEX:|
+    - and then we add up the specific indexes
+        - make sure we are carrything the one
+    - practice long division
+    - we want to do this in parallel
+    - so we are multiplying index 5 on number2 with all the digits in number1
+        - we can do this in parallel, we can't "write" with the same shared variable
+            - but we can read with them
+                - so at the same time, we can have a digit multiply with all the others, and another digit do it at the same time
+                    - a thread will be assigned to index[5] on number 2, and the thread will go through number1 and multiply 
+                        - so thread is given an index on number2, and then multiply through number 1
+    - make sure to have vectors 1 and 2 as global vectors
+        - The results is going to be a 2d vector
+        - this is where the "writing" happens
+        - so when reaching the point to where we want to push onto the 2d vector, there is going to be problems
+            - we need to use mutex lock to make sure that we lock the function, we lock, push the result onto the vector, and then open it
+        - ok so
+            - we use index[1] on number 2 and multiply through, eachmultiplication is put into it's own block in the vector
+                - THIS RESULT IS PUSHED INTO THE 2D vector
+                - you can see where this goes
+                - each index from num2 will have its own vector that is the result of the long multiplication, and itll be in the next
+                    row of the 2d vector
+    - !THE 2D vector IS GLOBAL
+    - make sure to not spawn more threads than needed 
+    - make sure that all the leading zeroes are removed
+    - to make sure the place values are correct, we will have to leading zeroes
+    - then we will do LONG division
+    - after this, we make sure we are adding all of the parts of the 2d vector, with their respective index
+        - we can store this in a separate 1d vector.. and then we loop through this vector, checking to see if the first numbers are zeroes
+            - so we loop through this result vector until we hit a number > 0, then we break
+        - and then we cout the int's starting from where the ^ function returned, the cout will look like a result
+!we dont necessarily need a size since we are working with vectors, and these can dynamically work with different sizes.
+!dont brain fart

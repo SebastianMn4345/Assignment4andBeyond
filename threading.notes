@@ -1,0 +1,14 @@
+!there are notes on the cpp file
+But how many threads can we spawn
+    - depends on the core count of the cpu
+    - with 8 cores; 16 threads
+    - if we are accesing more than the amount of threads that we have, the operating system will time out other threads and randomly take a running thread and swap it with one that 
+        is in time out mode. 
+    - what can be done, is to check to see if we have the max amount of threads
+        - join the threads
+            - then clear
+
+    - imagine that the output isnt truly in irder in th way that we have it
+        - we can store the result into another vector
+        - and then make sure that the output is correct
+            -(in the case of the example we can sort it)
