@@ -19,8 +19,10 @@ mutex t_lock;   //Will be used in conjunction with the threads to lock them
 vector<short> topNums;  //multiplicand
 vector<short> botNums;  //multiplier
 vector<vector<short>> resultVector;   //Stores the result of the individual multiplication at the place value
+vector<vector<short>> finalResultVector; //the sorted and correct vector
 vector<short> fillResult;
 vector<thread> threadPool;  //this will help us keep track of the threads and maintain what they are assigned to, as well as make it easier to clear the thread
+vector<short> additionVector;
 
 int maxThreads = thread::hardware_concurrency();    //will be using this to check how many threads the pc running this program has. Need to use this throughout the program.
 
@@ -57,13 +59,6 @@ int main(int argc, char* arg[])
         int currentBotNum;
         currentBotNum = topNums[i];
         cout << "botNums last number: " << currentBotNum << endl;
-         if(i > 0)
-        {
-            for(int k = 0; k < i; k++)
-            {
-                fillResult.push_back(0);
-            }
-        }
 
         //we have 9, now we multiply it through the topNum
         for(int j = topNums.size() - 1; j >= 0; j--)
@@ -128,33 +123,126 @@ int main(int argc, char* arg[])
         carry = 0;
     }
 
-    //we are going to want to reverse the vectors so that they are the correct orientation for the result
+    //we will need to fill in the zeroes for the place values
+    
+    
+    //lets rearrange the zeroes we just placed
+    vector<short> tempVec;
+    for(int i = 0; i < resultVector.size(); i++)
+    {
+        for(int j = resultVector[i].size() - 1; j >= 0; j--)
+        {
+            tempVec.push_back(resultVector[i][j]);
+        }
+        finalResultVector.push_back(tempVec);
+        tempVec.clear();
+    }
+    
+    for(int i = 0; i < finalResultVector.size(); i++)
+    {
+        if(i < finalResultVector.size())
+        {
+            for(int k = i; k > 0; k--)
+            {
+                finalResultVector[i].push_back(0);
+            }
+        }
+    }
+
+    //now lets insert leading 0's so that the index's in the vector can be aligned
+    int finalRow;   //grab the final row which will have the highest offset(since we put zeroes into the back)
+    finalRow = finalResultVector.size() - 1;
+    //access the last row with finalRow
+    int finalRowSize = 0;
+    finalRowSize = finalResultVector[finalRow].size();
+    cout << "This is the size of the final row in finalRowVector: " << finalRowSize << endl; 
+    for(int i = 0; i < finalResultVector.size(); i++)
+    {
+        if(finalResultVector[i].size() != finalRowSize)
+        {
+            while(finalResultVector[i].size() != finalRowSize)
+            {
+                finalResultVector[i].insert(finalResultVector[i].begin(), 0);
+            }
+        }
+    }
 
 
     //now that the resultVector is filled, we will need to use long addition for the final result
     //we might also need to resort the entire list so that it goes using the opposite way
-    cout << "Now time to cout the result 2d vector" << endl;
-    for(int i = 0; i < resultVector.size(); i++)
+    cout << "Now time to cout the finalresult 2d vector" << endl;
+    for(int i = 0; i < finalResultVector.size(); i++)
     {
-        for(int j = 0; j < resultVector[i].size(); j++)
+        for(int j = 0; j < finalResultVector[i].size(); j++)
         {
-            cout << resultVector[i][j];
+            cout << finalResultVector[i][j];
         }
         cout << endl;
     }
 
+    carry = 0;
+    //now lets add up the results of all this
+    for(int col = finalRowSize - 1; col >= 0; col--)
+    {
+        int sum = 0;
 
 
+        for(int row = 0; row < finalResultVector.size(); row++)
+        {
+            sum += finalResultVector[row][col];
+        }
+
+        sum = carry + sum;
+        //we have the sum
+        //need to check if there is a carry
+        if(sum > 9)
+        {
+            carry = returnCarry(sum);
+            answer = returnAnswer(sum);
+        }
+        else
+        {
+            carry = 0;
+            answer = sum;
+        }
+
+        if(col == 0)
+        {
+            if(carry == 0)
+            {
+                additionVector.insert(additionVector.begin(), answer);
+            }
+            else
+            {
+                additionVector.insert(additionVector.begin(), answer);
+                additionVector.insert(additionVector.begin(), carry);
+            }
+        }
+        else
+        {
+            additionVector.insert(additionVector.begin(), answer);
+        }
+        
+        cout << "Addition sum: " << sum << endl;
+        cout << "Addition carry: " << carry << endl;
+         
+    }
+
+    cout << "Printing the addition VECTOR" << endl;
+    for(int i = 0; i < additionVector.size(); i++)
+    {
+        cout << additionVector[i];
+    }
 
 
-
-
-
-
-
-
-    return 0;
+return 0;
 }
+
+
+
+
+
+
 
 //this will take in the input and convert it into an int
 int convertToInt(string input, int i)
