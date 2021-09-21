@@ -1,0 +1,55 @@
+//This is the algorithm for Assignment 4
+//Main focus is making use of threading
+
+!Lets start with threading
+    - Instead of using every thread our cpu has to process the code
+        - we can assign specific threads to a specific task
+            - this allows us to perform tasks in parallel, meaning at the same time
+            - to make threads, we first create the threads themselves, which are a part of their own function
+            - Once the threads are created, we use this threads to process a function
+                - We need to make sure that we aren't use more threads than the system can handle
+                    - as well as making sure that when we use the threads to WRITE
+                        - by write, this means cout, or pushing anything
+                            - however, we can READ data without any penalty
+                        - when it comes to writing, we will have to make sure we use a lock() token
+                            - this gives the fastest thread to reach this part a lock() token
+                                - allowing it to do the writing
+                                    - we then use the unlock() function, which then opens up the 
+                                    write sequence to another thread. 
+                                        - this goes on until all threads have finished
+                - if we do use more than we have, in which we write a check function for this, we join() the threads(still dont understand this too well)
+                    and then we clear() the threads.
+!The algorithm
+Declare all of the pre processor directives
+    - iostream
+    - threading
+    - mutex
+    - string
+    - vector
+Create Main
+    - dont forget to return 0
+Create Variables
+    - These are going to be global Variables
+        - The 2 vectors that will hold the input will be of type short
+            - vector1 will be for the first input, vector2 will be for the second input
+                Reading these in
+                    - each individual number will be an index on the vector
+                        - read in as a string, grab the "character"
+                            - convert to int
+                                - store in that index, i.
+        - then there is another 2d vector that will lead to the result
+            - this will hold the long array of numbers that come from the long multiplication
+                - so think of doing long multiplication, and remember that there are leading zeroes etc,
+                    - which is new number from vector num2, it will be a part of the 2d array
+
+
+
+
+
+
+
+
+
+
+
+
