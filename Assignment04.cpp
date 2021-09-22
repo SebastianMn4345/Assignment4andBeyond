@@ -48,6 +48,18 @@ int main(int argc, char* arg[])
     {
         botNums.push_back(convertToInt(input, i));
     }
+
+    cout << "bottom number after conversion" << endl;
+    for(int i = 0; i < botNums.size(); i++)
+    {
+        cout << botNums[i] << endl;
+    }
+
+    cout << "Top number after conversion" << endl;
+    for(int i = 0; i < topNums.size(); i++)
+    {
+        cout << topNums[i] << endl;
+    }
     //at this point the numbers have been read in and converted
     int row = 0;
     int col = 0;
@@ -56,17 +68,20 @@ int main(int argc, char* arg[])
 
     for(int i = botNums.size() - 1; i >= 0; i--)
     {
-        int currentBotNum;
-        currentBotNum = topNums[i];
+        int currentBotNum = 0;
+        currentBotNum = botNums[i];
         cout << "botNums last number: " << currentBotNum << endl;
 
         //we have 9, now we multiply it through the topNum
         for(int j = topNums.size() - 1; j >= 0; j--)
         {
-            int currentTopNum; 
-            currentTopNum = botNums[j];
+            int currentTopNum = 0; 
+            currentTopNum = topNums[j];
+            /*
+            cout << "This is where j is at: " << j << endl;
+            cout << "topNums last Number but with index at 1 operator: " << topNums[j] << endl;
             cout << "topNums last number: " << currentTopNum << endl;
-
+            */
             int product = currentBotNum * currentTopNum;
         //=============================================================
             if(carry > 0)   //if there was a previous carry;
@@ -108,12 +123,9 @@ int main(int argc, char* arg[])
                 fillResult.push_back(answer);
             }
         //=======================================================
-            cout << "initial product(might be with a carry): " << product << endl;
-            cout << "Carry : " << carry << endl;
-            cout << "Answer to be stored: " << answer << endl;
-
-            //fillResult.push_back(answer);
-
+            //cout << "initial product(might be with a carry): " << product << endl;
+            //cout << "Carry : " << carry << endl;
+            //cout << "Answer to be stored: " << answer << endl;
             col++;
         }
         resultVector.push_back(fillResult);
@@ -155,7 +167,7 @@ int main(int argc, char* arg[])
     //access the last row with finalRow
     int finalRowSize = 0;
     finalRowSize = finalResultVector[finalRow].size();
-    cout << "This is the size of the final row in finalRowVector: " << finalRowSize << endl; 
+    //cout << "This is the size of the final row in finalRowVector: " << finalRowSize << endl; 
     for(int i = 0; i < finalResultVector.size(); i++)
     {
         if(finalResultVector[i].size() != finalRowSize)
@@ -170,14 +182,14 @@ int main(int argc, char* arg[])
 
     //now that the resultVector is filled, we will need to use long addition for the final result
     //we might also need to resort the entire list so that it goes using the opposite way
-    cout << "Now time to cout the finalresult 2d vector" << endl;
+    //cout << "Now time to cout the finalresult 2d vector" << endl;
     for(int i = 0; i < finalResultVector.size(); i++)
     {
         for(int j = 0; j < finalResultVector[i].size(); j++)
         {
-            cout << finalResultVector[i][j];
+            //cout << finalResultVector[i][j];
         }
-        cout << endl;
+        //cout << endl;
     }
 
     carry = 0;
@@ -223,12 +235,12 @@ int main(int argc, char* arg[])
             additionVector.insert(additionVector.begin(), answer);
         }
         
-        cout << "Addition sum: " << sum << endl;
-        cout << "Addition carry: " << carry << endl;
+        //cout << "Addition sum: " << sum << endl;
+        //cout << "Addition carry: " << carry << endl;
          
     }
 
-    cout << "Printing the addition VECTOR" << endl;
+    //cout << "Printing the addition VECTOR" << endl;
     for(int i = 0; i < additionVector.size(); i++)
     {
         cout << additionVector[i];
